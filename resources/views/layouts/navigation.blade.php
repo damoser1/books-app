@@ -17,7 +17,7 @@
                     </x-nav-link>
 
                     <x-nav-link :href="route('list')" :active="request()->routeIs('list')">
-                        {{ __('List') }}
+                        {{ __('Books') }}
                     </x-nav-link>
 
                     <x-nav-link :href="route('authors.list')" :active="request()->routeIs('authors.*')">

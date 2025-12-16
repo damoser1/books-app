@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('List') }}
+            {{ __('Books') }}
         </h2>
 </x-slot>
 
@@ -88,7 +88,7 @@
                         </div>
                     @endif
                 </div>
-                <h2 class="text-lg md:text-xl lg:text-2xl ml-2 mb-6 font-bold">{{__('Books') }}</h2>
+                <h2 class="text-lg md:text-xl lg:text-2xl ml-2 mb-6">{{__('List') }}</h2>
 
                 {{--
                 <p>{{$username}}</p>
@@ -109,15 +109,15 @@
                             <div class="flex justify-between items-start">
                                 {{-- Linke Seite --}}
                                 <div class="flex flex-col">
-                                    <div class="text-xl font-semibold text-gray-900 dark:text-gray-100">
+                                    <div class="text-xl font-medium text-gray-900 dark:text-gray-100">
                                         {{ $book->title }}
                                     </div>
 
                                     <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">
                                         ISBN:
                                         <span class="font-mono text-gray-700 dark:text-gray-300">
-                            {{ $book->isbn }}
-                        </span>
+                                            {{ $book->isbn }}
+                                        </span>
                                     </div>
                                 </div>
 
