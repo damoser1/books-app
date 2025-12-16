@@ -1,0 +1,38 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Author;
+use App\Models\Book;
+use Illuminate\Http\Request;
+use Illuminate\View\View;
+
+class AuthorController extends Controller
+{
+    public function saveAuthor(Request $request)
+    {
+        $attributes  = request()->validate([
+            'name' => 'required|min:3|max:255',
+            'email' => 'required|min:1|max:255',
+        ]);
+
+        $authors = Author::create($attributes);
+
+        return back()->with('success', 'Your Author has been added successfully');
+    }
+
+    public function destroyAuthor(Author $author)
+    {
+        $author->delete();
+
+        return back()->with('success', 'Author deleted successfully');
+    }
+    public function listAuthors(): View
+    {
+        $authors = Author::all();
+
+        return view('authors.list', [
+            'authors' => $authors,
+        ]);
+    }
+}
