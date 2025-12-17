@@ -1,4 +1,37 @@
 {
+    "Dashboard": "Dashboard",
+
+    "Books": "Bücher",
+    "Authors": "Autoren",
     "List": "Liste",
+
+    "Welcome": "Willkommen",
+    "Here you can manage users, books and authors.": "Hier kannst du Benutzer, Bücher und Autoren verwalten.",
+
+    "Total users": "Benutzer insgesamt",
+    "Total books": "Bücher insgesamt",
+    "Total authors": "Autoren insgesamt",
+
+    "Add Books": "Buch hinzufügen",
+    "Book list": "Bücherliste",
+    "ISBN:": "ISBN:",
+    "Title": "Titel",
+    "Pages": "Seiten",
+
+    "Remove book": "Buch entfernen",
+
+    "Add Author": "Author hinzufügen",
+    "Author list": "Autorenliste",
+    "No authors found.": "Keine Autoren gefunden.",
+    "Delete this author?": "Diesen Autor wirklich löschen?",
+    "Delete author": "Autor löschen",
+    "Name": "Name",
+    "Email": "E-Mail",
+
+    "Save": "Speichern",
+
+    "Profile": "Profil",
+    "Log Out": "Abmelden",
+
     "You're logged in!": "Sie sind angemeldet!"
 }
