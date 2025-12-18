@@ -77,7 +77,10 @@
                         </div>
                     </form>
 
-
+                    <a href="{{ route('list') }}"
+                       class="inline-flex items-center px-5 py-2 bg-indigo-600 hover:bg-indigo-800 text-white font-semibold rounded-md transition mt-6">
+                        {{ __('Back to list') }}
+                    </a>
                 </div>
             </div>
         </div>

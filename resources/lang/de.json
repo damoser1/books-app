@@ -14,21 +14,31 @@
 
     "Add Books": "Buch hinzufügen",
     "Book list": "Bücherliste",
-    "ISBN:": "ISBN:",
+    "ISBN": "ISBN",
     "Title": "Titel",
     "Pages": "Seiten",
 
     "Remove book": "Buch entfernen",
+    "Delete this book?": "Dieses Buch wirklich löschen?",
+    "Book deleted successfully": "Buch erfolgreich gelöscht",
+    "Book saved": "Buch erfolgreich gespeichert",
+    "Your Book has been added successfully": "Buch wurde erfolgreich hinzugefügt",
 
-    "Add Author": "Author hinzufügen",
+    "Add Author": "Autor hinzufügen",
     "Author list": "Autorenliste",
     "No authors found.": "Keine Autoren gefunden.",
     "Delete this author?": "Diesen Autor wirklich löschen?",
     "Delete author": "Autor löschen",
+    "Author deleted successfully": "Autor erfolgreich gelöscht",
+    "Author saved": "Autor erfolgreich gespeichert",
+    "Your Author has been added successfully": "Autor wurde erfolgreich hinzugefügt",
+
     "Name": "Name",
     "Email": "E-Mail",
 
     "Edit Book": "Buch bearbeiten",
+    "Edit Author": "Autor bearbeiten",
+    "Back to list": "Zurück zur Liste",
 
     "Save": "Speichern",
 
