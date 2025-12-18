@@ -29,10 +29,14 @@ Route::get('/list', function (){
 Route::get('/list', [BookController::class, 'listBooks'])->middleware(['auth'])->name('list');
 Route::post('/list', [BookController::class, 'saveBook'])->middleware(['auth'])->name('save');
 Route::delete('/list/{book}', [BookController::class, 'destroy'])->middleware(['auth'])->name('destroy');
+Route::get('list/{book}/edit', [BookController::class, 'edit'])->middleware(['auth'])->name('edit');
+Route::patch('list/{book}', [BookController::class, 'update'])->middleware(['auth'])->name('update');
 
 Route::get('/authorlist', [AuthorController::class, 'listAuthors'])->middleware(['auth'])->name('authors.list');
 Route::post('/authorlist', [AuthorController::class, 'saveAuthor'])->middleware(['auth'])->name('authors.save');
 Route::delete('/authorlist/{author}', [AuthorController::class, 'destroyAuthor'])->middleware(['auth'])->name('authors.destroy');
+Route::get('/authorlist/{author}/edit', [AuthorController::class, 'editAuthor'])->middleware(['auth'])->name('authors.edit');
+Route::patch('authorlist/{author}', [AuthorController::class, 'updateAuthor'])->middleware(['auth'])->name('authors.update');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

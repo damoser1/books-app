@@ -31,7 +31,23 @@ class   BookController extends Controller
         return back()->with('success', 'Book deleted successfully');
     }
 
+    public function edit(Book $book)
+    {
+        return view('books.edit', [
+            'book' => $book
+        ]);
+    }
 
+    public function update(Book $book){
+        $attributes  = request()->validate([
+                'isbn' => 'required|min:3|max:255',
+                'title' => 'required|min:1|max:255',
+                'pages' => 'required|integer',
+        ]);
+
+        $book->update($attributes);
+        return back()->with('success', 'Book saved');
+    }
 
     public function listBooks(): View
     {

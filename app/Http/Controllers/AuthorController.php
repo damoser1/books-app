@@ -13,7 +13,7 @@ class AuthorController extends Controller
     {
         $attributes  = request()->validate([
             'name' => 'required|min:3|max:255',
-            'email' => 'required|min:1|max:255',
+            'email' => 'required|min:1|max:255|email:rfc,dns',
         ]);
 
         $authors = Author::create($attributes);
@@ -27,6 +27,23 @@ class AuthorController extends Controller
 
         return back()->with('success', 'Author deleted successfully');
     }
+
+    public function editAuthor(Author $author)
+    {
+        return view('authors.edit',[
+            'author' => $author
+        ]);
+    }
+    public function updateAuthor(Author $author){
+        $attributes  = request()->validate([
+            'name' => 'required|min:3|max:255',
+            'email' => 'required|min:1|max:255|email:rfc,dns',
+        ]);
+
+        $author->update($attributes);
+        return back()->with('success', 'Author saved');
+    }
+
     public function listAuthors(): View
     {
         $authors = Author::all();

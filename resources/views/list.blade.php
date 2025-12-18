@@ -121,17 +121,34 @@
                                     </div>
                                 </div>
 
-                                {{-- Rechte Seite --}}
-                                <form action="{{ route('destroy', $book->id) }}" method="post" class="mt-4 mr-2">
-                                    @csrf
-                                    @method('DELETE')
+                                {{-- ACTIONS --}}
+                                <div class="flex items-center gap-3">
+                                    {{-- EDIT --}}
+                                    <a href="{{ route('edit', $book->id) }}"
+                                       class="inline-flex items-center justify-center w-10 h-10 rounded-lg
+                                              text-indigo-500 hover:text-indigo-700
+                                              hover:bg-indigo-50 dark:hover:bg-gray-600
+                                              transition">
+                                        <x-pencil />
+                                        <span class="sr-only">Edit book</span>
+                                    </a>
 
-                                    <button type="submit"
-                                            class="text-red-500 hover:text-red-700 transition">
-                                        <x-trash/>
-                                        <span class="sr-only">Remove book</span>
-                                    </button>
-                                </form>
+                                    {{-- DELETE --}}
+                                    <form action="{{ route('destroy', $book->id) }}" method="POST" class="m-0">
+                                        @csrf
+                                        @method('DELETE')
+
+                                        <button type="submit"
+                                                class="inline-flex items-center justify-center w-10 h-10 rounded-lg
+                                                       text-red-500 hover:text-red-700
+                                                       hover:bg-red-50 dark:hover:bg-gray-600
+                                                       transition">
+                                            <x-trash />
+                                            <span class="sr-only">Remove book</span>
+                                        </button>
+                                    </form>
+                                </div>
+
                             </div>
                         </div>
                     @endforeach

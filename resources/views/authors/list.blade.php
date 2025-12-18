@@ -83,7 +83,7 @@
                     @else
                         <div class="space-y-4">
                             @foreach($authors as $author)
-                                <div class="p-4 bg-white dark:bg-gray-700 rounded-xl shadow border border-gray-100 dark:border-gray-600 flex justify-between items-center">
+                                <div class="p-4 bg-white dark:bg-gray-700 rounded-xl shadow-lg border border-gray-100 dark:border-gray-600 transition duration-300 hover:shadow-xl hover:border-gray-800 dark:hover:border-indigo-500 flex justify-between items-center">
 
                                     {{-- LEFT --}}
                                     <div>
@@ -95,17 +95,36 @@
                                         </div>
                                     </div>
 
-                                    {{-- DELETE --}}
-                                    <form action="{{ route('authors.destroy', $author) }}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
 
-                                        <button type="submit"
-                                                class="text-red-500 hover:text-red-700 transition"
-                                                onclick="return confirm('Delete this author?')">
-                                            <x-trash />
-                                        </button>
-                                    </form>
+
+                                    {{-- ACTIONS --}}
+                                    <div class="flex items-center gap-3">
+                                        {{-- EDIT --}}
+                                        <a href="{{ route('authors.edit', $author->id) }}"
+                                           class="inline-flex items-center justify-center w-10 h-10 rounded-lg
+                                                  text-indigo-500 hover:text-indigo-700
+                                                  hover:bg-indigo-50 dark:hover:bg-gray-600
+                                                  transition">
+                                            <x-pencil />
+                                            <span class="sr-only">Edit author</span>
+                                        </a>
+
+                                        {{-- DELETE --}}
+                                        <form action="{{ route('authors.destroy', $author->id) }}" method="POST" class="m-0">
+                                            @csrf
+                                            @method('DELETE')
+
+                                            <button type="submit"
+                                                    class="inline-flex items-center justify-center w-10 h-10 rounded-lg
+                                                           text-red-500 hover:text-red-700
+                                                           hover:bg-red-50 dark:hover:bg-gray-600
+                                                           transition">
+                                                <x-trash />
+                                                <span class="sr-only">Remove Author</span>
+                                            </button>
+                                        </form>
+                                    </div>
+
                                 </div>
                             @endforeach
                         </div>
