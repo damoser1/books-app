@@ -70,6 +70,34 @@
                             @enderror
                         </div>
 
+                        {{-- AUTHOR --}}
+                        <div>
+                            <label for="author_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                {{ __('Author') }}
+                            </label>
+
+                            <select
+                                name="author_id"
+                                id="author_id"
+                                class="w-full max-w-md border-gray-300 rounded-md focus:border-indigo-500 focus:ring-indigo-500"
+                            >
+                                <option value="">-- {{__('Please choose') }} --</option>
+
+                                @foreach ($authors as $a)
+                                    <option
+                                        value="{{ $a->id }}"
+                                        {{ old('author_id', $book->author_id) == $a->id ? 'selected' : '' }}
+                                    >
+                                        {{ $a->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+
+                            @error('author_id')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+
                         <div>
                             <x-primary-button class="px-5 py-2">
                                 {{ __('Save') }}

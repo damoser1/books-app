@@ -69,8 +69,6 @@
                             </x-primary-button>
                         </div>
                     </form>
-
-
                 </div>
             </div>
         </div>
@@ -111,6 +109,9 @@
                                 <div class="flex flex-col">
                                     <div class="text-xl font-medium text-gray-900 dark:text-gray-100">
                                         {{ $book->title }}
+                                        <p class="text-sm text-gray-800">
+                                            {{$book->author?->name}}
+                                        </p>
                                     </div>
 
                                     <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">

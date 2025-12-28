@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Author;
 use App\Models\Book;
 use GuzzleHttp\Promise\Create;
 use Illuminate\Http\Request;
@@ -33,8 +34,11 @@ class   BookController extends Controller
 
     public function edit(Book $book)
     {
+        $authors = Author::all();
+
         return view('books.edit', [
-            'book' => $book
+            'book' => $book,
+            'authors' => $authors
         ]);
     }
 
@@ -43,6 +47,7 @@ class   BookController extends Controller
                 'isbn' => 'required|min:3|max:255',
                 'title' => 'required|min:1|max:255',
                 'pages' => 'required|integer',
+                'author_id' => 'nullable|integer'
         ]);
 
         $book->update($attributes);
@@ -52,7 +57,7 @@ class   BookController extends Controller
     public function listBooks(): View
     {
         // Abfrage mit model class Book
-        $books = Book::all();
+        $books = Book::with('author')->get();
 
         /*
         $username = auth()->user()->name;
@@ -63,7 +68,7 @@ class   BookController extends Controller
             $numbers[] = rand(1, 10);
         }
         */
-        return view('list', [
+        return view('books.list', [
             'books' => $books,
             // 'username' => $username,
             // 'nums' => $numbers

@@ -16,6 +16,9 @@ class AuthorController extends Controller
             'email' => 'required|min:1|max:255|email:rfc,dns',
         ]);
 
+        // statt button nach dem speichern direkt zur liste
+        // return redirect(route('/list'))
+
         $authors = Author::create($attributes);
 
         return back()->with('success', 'Your Author has been added successfully');
