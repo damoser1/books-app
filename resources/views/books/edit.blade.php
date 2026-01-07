@@ -18,7 +18,7 @@
                         </div>
                     @endif
 
-                    <form action="{{ route('update', $book->id) }}" method="post" class="space-y-6">
+                    <form action="{{ route('books.update', $book->id) }}" method="post" class="space-y-6">
                         @csrf
                         @method('PATCH')
 
@@ -105,7 +105,7 @@
                         </div>
                     </form>
 
-                    <a href="{{ route('list') }}"
+                    <a href="{{ route('books.list') }}"
                        class="inline-flex items-center px-5 py-2 bg-indigo-600 hover:bg-indigo-800 text-white font-semibold rounded-md transition mt-6">
                         {{ __('Back to list') }}
                     </a>

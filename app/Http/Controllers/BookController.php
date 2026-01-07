@@ -10,7 +10,7 @@ use Illuminate\View\View;
 
 class   BookController extends Controller
 {
-    public function saveBook(Request $request)
+    public function saveBook()
     {
         $attributes  = request()->validate([
             'isbn' => 'required|min:3|max:255',

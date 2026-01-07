@@ -8,8 +8,9 @@ Installation mittels
 laravel new books-app
 ```
 
-Die weitere Arbeit erfolgt in PHPStorm. Bei der Bearbeitung wird `npm run dev` verwendet. 
-Dadurch die Stile (css, js, etc.) korrekt angezeigt.
+Die weitere Arbeit erfolgt in PHPStorm. 
+Bei der Bearbeitung wird `npm run dev` verwendet.
+Npm (Node Package Manager) wird verwendet, um JavaScript-Abhängigkeiten zu installieren und Frontend-Assets wie CSS und JavaScript zu verwalten, zu bauen und die Stile anzuzeigen.
 
 ## Konfiguration
 
@@ -17,7 +18,7 @@ Laravel wird in einer Datei names `.env` konfiguriert.
 Diese Datei muss besonders geschützt werden, da sie auch Zugangsdaten beinhaltet. 
 Die Speicherung darf nicht in einem Repository erfolgen.
 
-Ein Key (`APP_Key`) kann mittels `php artisan key:generate` erstellt werden. 
+Ein Key (`APP_Key`) kann mittels `php artisan key:generate` erstellt werden. Zuständig für die Verschlüsselung von Daten.
 Standardmäßig wird die `.env`-Datei mittels `.gitignore`-Datei ignoriert.
 
 In der `.env`-Datei befindet sich auch der Zugang zur Datenbank. 
@@ -37,6 +38,14 @@ Im 'routs'-Verzeichnis wird dadurch eine `api.php` erstellt.
 In dieser Datei werden alle API-Endpunkte erstellt. 
 In der `web.php`-Datei werden alle für die Website relevanten Urls erstellt.
 
+- **Laravel API** = Backend-Schnittstelle für den Datenaustausch
+- Ermöglicht die Kommunikation zwischen **Frontend (Web/App)** und **Laravel Backend**
+- Jeder Endpunkt reagiert auf **HTTP-Methoden** (GET, POST, PUT (ersetzt vollständig), PATCH (ersetzt teilweise), DELETE)
+- Endpunkte rufen **Controller-Methoden** auf
+- Daten werden standardmäßig im **JSON-Format** zurückgegeben
+- Authentifizierung erfolgt meist über **Laravel Sanctum** oder **JWT**
+- Erhöht **Sicherheit**, **Struktur** und **Wartbarkeit** der Anwendung
+
 ## Backend-Installation
 
 Laravel Breeze ermöglicht die schnelle und einfache Verwendung eines Backends:
@@ -45,6 +54,13 @@ Laravel Breeze ermöglicht die schnelle und einfache Verwendung eines Backends:
 composer require laravel/breeze --dev
 php artisan breeze:install
 ```
+
+- **Laravel Breeze** ist ein leichtgewichtiges **Authentifizierungs-Starterkit**
+- Stellt grundlegende **Login-, Registrierungs- und Logout-Funktionen** bereit
+- Enthält **Auth-Logik**, **Routen**, **Controller** und **Views**
+- Nutzt **Laravel Blade** oder **Inertia.js / React / Vue**
+- Verwendet **Laravel Sanctum** für Authentifizierung
+- Ideal für **kleine bis mittlere Projekte**
 
 > **Hinweis:** Nach der Installation eventuell erneut `npm run dev` ausführen.
 
@@ -104,10 +120,11 @@ In Blade kann mittels `@if` eine Abfrage durchgeführt werden.
 @endif
 ```
 
-Im obigen Beispiel wird überprüft, ob ie Route `login` verfügbar ist (also ob ein Auth-System installiert wurde). 
+Im obigen Beispiel wird überprüft, ob die Route `login` verfügbar ist (also ob ein Auth-System installiert wurde). 
 Anschließend wird der Anmeldestatus es Benutzers mittels `@auth` abgefragt.
 
 > **Hinweis:** In Blade müssen Elemente stets mit `@end...` geschlossen werden.
+
 
 # Arbeit mit Daten
 
@@ -118,13 +135,13 @@ Laravel verwendet das **MVC-Pattern**, um Daten strukturiert anzuzeigen.
 ### So funktioniert es:
 
 - **Model**  
-  Verwaltet die Daten, zum Beispiel aus der Datenbank.
-
-- **Controller**  
-  Holt die Daten vom Model und verarbeitet sie. Er entscheidet, welche Daten angezeigt werden.
+  Speichert die Daten der Anwendung und ist für deren Verwaltung zuständig.
 
 - **View**  
-  Stellt die Daten für den Benutzer dar, zum Beispiel als Webseite.
+  Stellt die vom Model bereitgestellten Daten für den Benutzer dar.
+
+- **Controller**  
+  Nimmt Anfragen entgegen, verarbeitet sie und bestimmt, welche Daten aus dem Model an die View übergeben werden.
 
 ### Einfach gesagt:
 Der **Controller** ist die Schnittstelle zwischen Daten und Anzeige.  
@@ -264,7 +281,17 @@ public function run(): void
 }
 ```
 
+Um automatisch Demo-Daten für Bücher zu erzeugen, wird eine **BookFactory** benötigt, welche zufällige Beispieldaten für das `Book`-Model erstellt.
+
+```
+php artisan make:factory BookFactory
+```
+
+Die Factory wird im `BookSeeder` verwendet, um mehrere Datensätze effizient zu erzeugen.
+
 Nach einem erneuten Aufruf von `php artisan migrate:fresh --seed` werden die Daten in der `books`-Tabelle anzeigt.
+
+
 
 ## Konfigurationsdaten auslesen
 
@@ -276,16 +303,36 @@ Um die Konfiguration lt. `.env` auszulesen, muss die Funktion `config` verwendet
 
 Im obigen Beispiel ist ersichtlich, dass die Konfiguration `APP_NAME` ausgelesen wird und falls diese nicht verfügbar ist, wird der Wert `Laravel` verwendet. Es können in der `.env`-Datei auch eigenen Variablen erstellt werden.
 
+
+
 ## Mehrere Sprachen unterstützen
+
+Laravel unterstützt **JSON-basierte Sprachdateien** zur einfachen Übersetzung von Texten.
+
+- JSON-Übersetzungen befinden sich im Verzeichnis `resources/lang/`
+- Für jede Sprache wird eine eigene JSON-Datei erstellt (z. B. `de.json`)
+- Der zu übersetzende Text dient gleichzeitig als Schlüssel
+- Übersetzungen werden mit der Funktion `{{ __('')}}` aufgerufen
+- Besonders geeignet für **UI- und Anzeigetexte**
+- Keine verschachtelten Schlüssel notwendig
+- Laravel lädt JSON-Übersetzungen automatisch
+
+
+### Beispiel:
+```json
+{
+    "Login": "Anmelden",
+    "Welcome": "Willkommen"
+}
+```
 
 In einer Blade-Datei können mti folgendem Code mehrere Sprachen unterstützt werden:
 
-
 ```bladehtml
-{{ __('List') }}
+{{ __('Login') }}
 ```
 
-Der Wert `List` wird als "fallbackvalue" in EN geschrieben. In *views* wird ein Ordner namens "lang" erstellt. Dieser beinhaltet eine `json`-Datei namens `de.json`. In dieser Datei werden die angegebenen Werte übersetzt.
+Der Wert `Login` wird als "fallbackvalue" in EN geschrieben. In *resources/* wird ein Ordner namens "lang" erstellt. Dieser beinhaltet eine `json`-Datei namens `de.json`. In dieser Datei werden die angegebenen Werte übersetzt.
 
 In der `.env`-Datei werden die entsprechenden Spracheinstellungen festgelegt:
 
@@ -294,23 +341,49 @@ APP_LOCALE=de
 APP_FALLBACK_LOCALE=en
 ```
 
-Deutsch wird als lokale Sprache festgelegt - EN als "fall back".
+Deutsch wird als lokale Sprache festgelegt - EN als "fall back". Falls keine deutsche Übersetzung vorhanden ist, greift Laravel automatisch auf Englisch zurück.
+
+
 
 ## Routes
 
+Die Datei `web.php` wird für klassische Webseiten mit Sessions und Middleware wie `auth` verwendet.
+Für reine API-Endpunkte wird in Laravel die Datei `api.php` genutzt.
+
 Ausgangspunkt für einen Seitenaufruf ist immer die `web.php`. In dieser Datei werden die Routes festgelegt.
 
-Im folgenden Beispiel wird eine Route für die Buchliste festgelegt und mittels auth-Middleware geschützt. Es können also nur angemeldete Benutzer auf die Buchliste zugreifen. Der Name für die Route wird auf `list` festgelegt.
+Im folgenden Beispiel wird eine Route für die Buchliste festgelegt und mittels auth-Middleware geschützt. 
 
->**Hinweis:** Werden Namen verwendet, so können die URLs bei Bedarf einfach angepasst werden, ohne den HTML-COde zu verändern.
+Die `auth`-Middleware prüft, ob ein Benutzer angemeldet ist.
+Ist dies nicht der Fall, wird der Benutzer automatisch zur Login-Seite weitergeleitet.
 
-Innerhalb `view` wird in diesem Beispiel `list`angegeben, das bedeutet, dass eine list.blade.php-Datei innerhalb des views-Ordners gesucht wird.Wäre ein Unterordner vorhanden, so müsste man `unterordner.list` angeben.
+Es können also nur angemeldete Benutzer auf die Buchliste zugreifen. Der Name für die Route wird auf `list` festgelegt.
+
+>**Hinweis:** Werden Namen verwendet, so können die URLs bei Bedarf einfach angepasst werden, ohne den HTML-Code zu verändern.
+
+Innerhalb `view` wird in diesem Beispiel `list` angegeben, das bedeutet, dass eine list.blade.php-Datei innerhalb des views-Ordners gesucht wird. 
+Wäre ein Unterordner vorhanden, so müsste man `unterordner.list` angeben.
 
 ```php
 Route::get('/list', function (){
     return view('list');
 })->middleware(['auth'])->name('list');
 ```
+
+Falls Unterordner vorhanden:
+
+```php
+Route::get('/list', function (){
+    return view('unterordner.list');
+})->middleware(['auth'])->name('list');
+```
+
+Beispiel mit Controller:
+```php
+Route::get('/list', [BookController::class, 'listBooks'])->middleware(['auth'])->name('list');
+```
+
+In diesen Beispielen wird die HTTP-Methode `GET` verwendet, da lediglich Daten angezeigt werden.
 
 Die neue Route kann in der Navigation (navigation.blade.php) folgendermaßen verwendet werden:
 
@@ -326,11 +399,29 @@ Die neue Route kann in der Navigation (navigation.blade.php) folgendermaßen ver
  </x-responsive-nav-link>
 ```
 
-Die Verwendung einer `function()` innerhalb der `web.php` kann für schnelle Veränderungen bzw. "kleine" Webseiten verwendet werden. Bei umfangreicheren Seiten sollte die Route-Behandlung in einen Controller ausgelagert werden.
+`<x-nav-link>` wird für die **Desktop-Navigation** verwendet, während `<x-responsive-nav-link>` in der **mobilen Ansicht** innerhalb des Hamburger-Menüs zum Einsatz kommt.
+
+Die Verwendung einer `function()` innerhalb der `web.php` kann für schnelle Veränderungen bzw. "kleine" Webseiten verwendet werden. 
+
+```php
+Route::get('/list', function (){
+    return view('list');
+})->middleware(['auth'])->name('list');
+```
+
+Bei umfangreicheren Seiten sollte die Route-Behandlung in einen Controller ausgelagert werden.
+
+Beispiel mit Controller:
+```php
+Route::get('/list', [BookController::class, 'listBooks'])->middleware(['auth'])->name('list');
+```
+
 
 ## Routes und Controller verbinden
 
-Ein Controller wird mittels `php artisan make:controller BookController` erstellt. Dadurch wird in `app\http\Controller` eine Datei namens `BookController.php` erstellt. Controller werden in der Einzahl erstellt.
+Ein Controller wird mittels `php artisan make:controller BookController` erstellt. 
+Dadurch wird in `app\Http\Controller` eine Datei namens `BookController.php` erstellt. 
+Controller werden in der **Einzahl** erstellt.
 
 Die Verbindung erfolgt folgendermaßen:
 
@@ -338,7 +429,9 @@ Die Verbindung erfolgt folgendermaßen:
 Route::get('/list', [BookController::class, 'listBooks'])->middleware(['auth'])->name('list');
 ```
 
-Mittels `GET` kann `/list` aufgerufen werden und es wird die Methode `list()` im BookController verwendet.
+Mittels `GET` kann `/list` aufgerufen werden und es wird die Methode `listBooks()` im BookController aufgerufen und verwendet.
+
+Der Controller enthält die **Logik zur Verarbeitung der Anfrage** und gibt eine **passende Antwort (z. B. eine View) zurück**.
 
 Möchte man nur `BookController` schreiben, so muss der Namespace mit `use` oben hinzugefügt werden.
 
@@ -349,6 +442,8 @@ use App\Http\Controllers\BookController;
 >**Tipp:** Mit einem Rechtsklick kann dies via `Context Actions` rasch erledigt werden.
 
 ![Show Context Actions](public/build/assets/context-actions.png)
+
+## Datenabfrage im Controller und Übergabe an die View
 
 Im BookController werden nun innerhalb der Funktion `listBooks` alle Bücher ausgelesen.
 
@@ -366,7 +461,7 @@ Im BookController werden nun innerhalb der Funktion `listBooks` alle Bücher aus
     }
 ```
 
-An die `View` wird nun ein Array mit den Daten aus dem Model gesendet. Die View kann mit dem Namen `mybooks` auf diese Daten zugreifen.
+An die `View` wird nun ein Array mit den Daten aus dem Model gesendet. Die View kann mit dem Namen `books` auf diese Daten zugreifen.
 
 
 ## View
@@ -383,7 +478,8 @@ In der View wird auf `$books` folgendermaßen zugegriffen:
 @endforeach
 ```
 
-In der `foreach`-Schleife wird jedes Buchelement als `$book` behandelt und innerhalb der Schleife wird auf die einzelnen `Book`-Models zugegriffen. Es sind die meisten attribute der Tabelle verfügbar.
+In der `foreach`-Schleife wird jeder Buch-Datensatz als `$book` behandelt. 
+Innerhalb der Schleife kann auf alle Attribute des `Book`-Models zugegriffen werden.
 
 Mit zB `@if` kann auch eine Verzweigung durchgeführt werden. Zum Beispiel könnten nur Bücher mit mehr als 350 Seiten angezeigt werden:
 
@@ -397,13 +493,51 @@ Mit zB `@if` kann auch eine Verzweigung durchgeführt werden. Zum Beispiel könn
 @endforeach
 ```
 
-Aus Performance-Gründen, würde diese Abfrage aber eher im Controller durchgeführt werden (`where`).
+Filterungen sollten aus Performance-Gründen im Controller oder direkt in der Datenbank erfolgen.
+Abfrage würde eher im Controller durchgeführt werden (`where`).
+
+Zum Beispiel im controller:
+```php
+$bookCount = Book::count();
+
+$bookCount = Book::where('pages', '>', 350)->count();
+```
+Die Methode `count()` gibt die Gesamtanzahl aller Datensätze in der Tabelle zurück.
+
+Mit `where` werden nur Bücher berücksichtigt, die die Bedingung erfüllen.
+Die Methode `count()` gibt anschließend die Anzahl dieser Datensätze zurück.
+
+```php
+return view('list', [
+    'books' => $books,
+    'bookCount' => $bookCount
+]);
+```
+
+Anzeige in der View:
+
+```bladehtml
+<p>Gesamtanzahl der Bücher: {{ $bookCount }}</p>
+<p>Anzahl der Bücher mit mehr als 350 Seiten: {{ $bookCount }}</p>
+```
+
+Die **View** ist ausschließlich für die **Darstellung der Daten** zuständig.
 
 ## Daten eingeben
 
-Daten werden mit Formulare eingeben. Mit `route('save')` wird auf die URL der Route `save` (siehe *web.php*) zugegriffen. Mittels `@csrf` wird das Formular vor unberechtigten Zugriffen geschützt. Fehlt `csrf`, so wird *Page expired* ausgegeben. Um auch fehlerhafte Werte, welche nach einem Absenden des Formulares verschwinden würde, anzuzeigen, wird auf die gesendeten Daten mittels `old('feldname') zugegriffen.
+Daten werden mit Formulare eingeben. Das Formular sendet per `POST` an die Route `save`. Diese Route muss in `web.php` als `Route::post(...)` definiert sein.
+Mittels `@csrf` wird das Formular vor unberechtigten Zugriffen geschützt. 
+Fehlt `csrf`, so wird *Page expired* ausgegeben.
+Für Updates wird in Laravel oft `PUT` oder `PATCH` verwendet. In Blade wird dies mit `@method('PUT')` bzw. `@method('PATCH')` ergänzt.
+Um auch fehlerhafte Werte, welche nach einem Absenden des Formulares verschwinden würde, anzuzeigen, wird auf die gesendeten Daten mittels `old('feldname') zugegriffen.
+Mit `old('feldname')` können zuvor abgesendete Formulardaten erneut angezeigt werden, wenn das Formular aufgrund eines Fehlers erneut geladen wird.
+> **Hinweis:** Der `name`-Wert des Inputs (z. B. `name="isbn"`) muss mit den Validierungsregeln und `old('isbn')` übereinstimmen.
 
-Auf die Werte der Datenüberprüfung wird mittels `@error('isbn')` und `@enderror` zugegriffen. Dadurch kann eine detaillierte Fehlermeldung angezeigt werden. Im *lang*-Ordner befinden sich die installierten/übersetzten Sprachen. Mit `php artisan lang:publish` wird die Standardsprache im Ordner `lang erstellt.
+Auf Validierungsfehler kann in Blade mit `@error('isbn')` und `@enderror` zugegriffen werden.
+Innerhalb dieses Blocks steht die zugehörige Fehlermeldung in der Variable `$message` zur Verfügung und kann angezeigt werden.
+
+Die Sprachdateien für diese Fehlermeldungen befinden sich im Verzeichnis `lang/`.
+Mit dem Befehl `php artisan lang:publish` werden die standardmäßigen Laravel-Sprachdateien in diesem Verzeichnis erstellt und können angepasst werden.
 
 > **Hinweis:** Eine Komponente in `resources/views/components` wird mittels Präfix `x-` hinzugefügt. Der "Primary Button" wird also mit `<x-primary-button ...` hinzufügt.
 
@@ -469,7 +603,9 @@ Auf die Werte der Datenüberprüfung wird mittels `@error('isbn')` und `@enderro
 
 ### Icons
 
-Icons können von [www.heroicons.com](https://www.heroicons.com) heruntergeladen werden. Mit `<x-trash class="text-red-500"/> kann ein Icon (analog zu einer anderen Komponente) eingebunden werden. Um die Komponente mit einer Klasse versehen zu können, wird in der `blade.php`-Datei der Komponente ein `$attributes->merge` mit den jeweiligen Standardklassen benötigt.
+Icons können von [www.heroicons.com](https://www.heroicons.com) heruntergeladen werden. 
+Mit `<x-trash class="text-red-500"/> kann ein Icon (analog zu einer anderen Komponente) eingebunden werden. 
+Um die Komponente mit einer Klasse versehen zu können, wird in der `blade.php`-Datei der Komponente ein `$attributes->merge` mit den jeweiligen Standardklassen benötigt.
 
 ```bladehtml
 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" {{ $attributes->merge(['class' => 'size-6']) }}>

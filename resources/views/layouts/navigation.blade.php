@@ -16,7 +16,7 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
 
-                    <x-nav-link :href="route('list')" :active="request()->routeIs(['list','edit'])">
+                    <x-nav-link :href="route('books.list')" :active="request()->routeIs(['books.*'])">
                         {{ __('Books') }}
                     </x-nav-link>
 
@@ -79,8 +79,12 @@
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
 
-            <x-responsive-nav-link :href="route('list')" :active="request()->routeIs('list')">
+            <x-responsive-nav-link :href="route('books.list')" :active="request()->routeIs('books.*')">
                 {{ __('List') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('authors.list')" :active="request()->routeIs('authors.*')">
+                {{ __('Authors') }}
             </x-responsive-nav-link>
         </div>
 

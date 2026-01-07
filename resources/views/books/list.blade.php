@@ -12,7 +12,7 @@
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <h2 class="text-lg md:text-xl lg:text-2xl">{{__('Add Books') }}</h2>
 
-                    <form action="{{ route('save') }}" method="post" class="space-y-6">
+                    <form action="{{ route('books.save') }}" method="post" class="space-y-6">
                         @csrf
 
                         <div>
@@ -125,7 +125,7 @@
                                 {{-- ACTIONS --}}
                                 <div class="flex items-center gap-3">
                                     {{-- EDIT --}}
-                                    <a href="{{ route('edit', $book->id) }}"
+                                    <a href="{{ route('books.edit', $book->id) }}"
                                        class="inline-flex items-center justify-center w-10 h-10 rounded-lg
                                               text-indigo-500 hover:text-indigo-700
                                               hover:bg-indigo-50 dark:hover:bg-gray-600
@@ -135,7 +135,7 @@
                                     </a>
 
                                     {{-- DELETE --}}
-                                    <form action="{{ route('destroy', $book->id) }}" method="POST" class="m-0">
+                                    <form action="{{ route('books.destroy', $book->id) }}" method="POST" class="m-0">
                                         @csrf
                                         @method('DELETE')
 
