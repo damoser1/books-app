@@ -6,6 +6,7 @@ use App\Models\Author;
 use App\Models\Book;
 use GuzzleHttp\Promise\Create;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 
 class   BookController extends Controller
@@ -27,6 +28,10 @@ class   BookController extends Controller
 
     public function destroy(Book $book)
     {
+        if(!Gate::allows('update-book', $book)){
+            abort(403);
+        }
+
         $book->delete();
 
         return back()->with('success', 'Book deleted successfully');
@@ -34,6 +39,10 @@ class   BookController extends Controller
 
     public function edit(Book $book)
     {
+        if(!Gate::allows('update-book', $book)){
+            abort(403);
+        }
+
         $authors = Author::all();
 
         return view('books.edit', [
